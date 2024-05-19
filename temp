@@ -1,0 +1,29 @@
+import requests
+from bs4 import BeautifulSoup
+import random
+import os
+
+url = 'https://en.wikipedia.org/wiki/Python_(programming_language)'
+reqs = requests.get(url)
+soup = BeautifulSoup(reqs.text)
+ 
+urls = set()
+for link in soup.find_all('a', href = True):
+    link = link.get('href')
+    if link.startswith ('/wiki') and ':' not in link:
+        urls.add(link)
+
+random_links = random.sample(list(urls), 3)
+
+
+img_links = set()
+for link2 in soup.find_all('img', src = True):
+    link2 = link2.get('src')
+    if link2.startswith ('//upload.wikimedia.org'):
+        img_links.add(link2)
+
+print(random.sample(list(img_links), 1))
+#print(list(img_links))
+
+with open('/Users/yisroel/Desktop/mefathim/00000002.png','wb') as f:
+    f.write(requests.get('http://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Octicons-terminal.svg/24px-Octicons-terminal.svg.png').content)
