@@ -3,3 +3,4 @@ def is_leap_year(year):
 
 print(is_leap_year(2024))
 
+בדיקה
